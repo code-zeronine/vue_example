@@ -8,19 +8,28 @@
     </div>
 
     <!-- 검색 필터 영역 -->
-    <div class="mb-6">
+    <div class="mb-6 space-y-2">
+      <!-- 필터 헤더 -->
       <button 
         @click="isFilterOpen = !isFilterOpen"
-        class="w-full flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700"
+        class="w-full flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 transition-all duration-200 hover:border-primary-500 dark:hover:border-primary-500"
       >
-        <div class="flex items-center space-x-2">
-          <svg class="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-          </svg>
+        <div class="flex items-center space-x-3">
+          <div class="relative">
+            <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            </svg>
+            <span v-if="activeFiltersCount > 0" 
+              class="absolute -top-1 -right-1 w-4 h-4 bg-primary-600 text-white text-xs flex items-center justify-center rounded-full">
+              {{ activeFiltersCount }}
+            </span>
+          </div>
           <span class="font-medium text-gray-700 dark:text-gray-300">검색 필터</span>
-          <span class="px-2 py-1 text-xs rounded-full" :class="activeFiltersCount > 0 ? 'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400'">
-            {{ activeFiltersCount }}개 적용중
-          </span>
+          <div v-if="activeFiltersCount > 0" class="flex items-center space-x-2">
+            <span class="px-2 py-1 text-xs rounded-full bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300">
+              {{ activeFiltersCount }}개의 필터 적용중
+            </span>
+          </div>
         </div>
         <svg 
           class="w-5 h-5 text-gray-500 transition-transform duration-200"
@@ -34,121 +43,167 @@
       </button>
 
       <!-- 필터 상세 -->
-      <div v-show="isFilterOpen" class="mt-2 space-y-4">
+      <div v-show="isFilterOpen" 
+        class="transition-all duration-200 overflow-hidden"
+        :class="{ 'opacity-100 max-h-[2000px]': isFilterOpen, 'opacity-0 max-h-0': !isFilterOpen }"
+      >
         <!-- 기간 선택 -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-          <div class="flex items-center justify-between mb-4">
-            <label class="text-sm font-medium text-gray-700 dark:text-gray-300">기간</label>
-            <div class="flex items-center space-x-2">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 mb-2">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+            <label class="text-sm font-medium text-gray-700 dark:text-gray-300">조회 기간</label>
+            <div class="flex flex-wrap gap-2">
               <button 
                 v-for="period in quickPeriods" 
                 :key="period.days"
                 @click="setQuickPeriod(period.days)"
-                class="px-3 py-1 text-xs rounded-full transition-colors duration-200"
+                class="px-4 py-2 text-sm rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
                 :class="isSelectedPeriod(period.days) ? 
-                  'bg-primary-100 text-primary-700 dark:bg-primary-900 dark:text-primary-300' : 
-                  'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-400 dark:hover:bg-gray-600'"
+                  'bg-primary-600 text-white hover:bg-primary-700' : 
+                  'bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'"
               >
                 {{ period.label }}
               </button>
             </div>
           </div>
-          <div class="flex items-center space-x-2">
-            <input 
-              type="date" 
-              v-model="searchParams.startDate"
-              class="flex-1 form-input text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-            >
-            <span class="text-gray-500">~</span>
-            <input 
-              type="date" 
-              v-model="searchParams.endDate"
-              class="flex-1 form-input text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-            >
+          <div class="flex flex-col sm:flex-row gap-3">
+            <div class="flex-1 relative">
+              <input 
+                type="date" 
+                v-model="searchParams.startDate"
+                class="w-full px-4 py-2 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-primary-500 focus:border-primary-500"
+              >
+              <label class="absolute -top-2 left-2 text-xs text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 px-1">
+                시작일
+              </label>
+            </div>
+            <div class="flex items-center justify-center">
+              <span class="text-gray-500 dark:text-gray-400">~</span>
+            </div>
+            <div class="flex-1 relative">
+              <input 
+                type="date" 
+                v-model="searchParams.endDate"
+                class="w-full px-4 py-2 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-primary-500 focus:border-primary-500"
+              >
+              <label class="absolute -top-2 left-2 text-xs text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 px-1">
+                종료일
+              </label>
+            </div>
           </div>
         </div>
 
         <!-- 차량 정보 -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">제조사</label>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 mb-2">
+          <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">차량 정보</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="relative">
               <select 
                 v-model="searchParams.manufacturer"
-                class="form-select w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="w-full px-4 py-2 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-primary-500 focus:border-primary-500 appearance-none"
               >
-                <option value="">전체</option>
+                <option value="">제조사 전체</option>
                 <option v-for="mfr in manufacturers" :key="mfr" :value="mfr">{{ mfr }}</option>
               </select>
+              <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
             </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">모델</label>
+            <div class="relative">
               <select 
                 v-model="searchParams.model"
-                class="form-select w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="w-full px-4 py-2 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-primary-500 focus:border-primary-500 appearance-none"
+                :disabled="!searchParams.manufacturer"
               >
-                <option value="">전체</option>
+                <option value="">모델 전체</option>
                 <option v-for="model in filteredModels" :key="model" :value="model">{{ model }}</option>
               </select>
+              <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
             </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">상세모델</label>
+            <div class="relative">
               <select 
                 v-model="searchParams.detailModel"
-                class="form-select w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="w-full px-4 py-2 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-primary-500 focus:border-primary-500 appearance-none"
               >
-                <option value="">전체</option>
+                <option value="">상세 모델 전체</option>
                 <option v-for="model in detailModels" :key="model" :value="model">{{ model }}</option>
               </select>
+              <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
             </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">연식</label>
+            <div class="relative">
               <select 
                 v-model="searchParams.year"
-                class="form-select w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="w-full px-4 py-2 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-primary-500 focus:border-primary-500 appearance-none"
               >
-                <option value="">전체</option>
+                <option value="">연식 전체</option>
                 <option v-for="year in years" :key="year" :value="year">{{ year }}년</option>
               </select>
+              <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- 상태 및 기타 정보 -->
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4">
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">비공개 여부</label>
+          <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">상태 및 기타 정보</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+            <div class="relative">
               <select 
                 v-model="searchParams.visibility"
-                class="form-select w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="w-full px-4 py-2 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-primary-500 focus:border-primary-500 appearance-none"
               >
-                <option value="all">전체</option>
+                <option value="all">공개 여부 전체</option>
                 <option value="public">공개</option>
                 <option value="private">비공개</option>
               </select>
+              <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
             </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">물건종 상태</label>
+            <div class="relative">
               <select 
                 v-model="searchParams.status"
-                class="form-select w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                class="w-full px-4 py-2 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-primary-500 focus:border-primary-500 appearance-none"
               >
-                <option value="all">전체</option>
+                <option value="all">물건종 상태 전체</option>
                 <option value="waiting">대기중</option>
                 <option value="selling">판매중</option>
                 <option value="completed">판매완료</option>
               </select>
+              <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
             </div>
           </div>
-          <div class="mt-4">
-            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">차대번호 / 이어폼번호</label>
+          <div class="relative">
             <input 
               type="text" 
               v-model="searchParams.vinNumber"
-              placeholder="차대번호 또는 이어폼번호 입력"
-              class="form-input w-full text-sm rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              placeholder="차대번호 또는 이어폼번호를 입력하세요"
+              class="w-full px-4 py-2 text-sm rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:ring-primary-500 focus:border-primary-500"
             >
+            <div class="absolute inset-y-0 right-0 flex items-center px-2">
+              <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
           </div>
         </div>
       </div>
