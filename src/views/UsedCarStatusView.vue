@@ -602,7 +602,7 @@ const search = () => {
   const filteredResults = allCars.value.filter(car => {
     // 날짜 범위 체크
     if (searchParams.value.startDate && searchParams.value.endDate) {
-      const carDate = new Date(car.year, 0, 1)
+      // Removed unused variable 'carDate'
       const startDate = new Date(searchParams.value.startDate)
       const endDate = new Date(searchParams.value.endDate)
       
