@@ -28,7 +28,7 @@
             <div v-for="(value, key) in options.exterior" :key="key" class="flex items-center justify-between">
               <label class="text-gray-700 dark:text-gray-300">{{ getOptionLabel('exterior', key) }}</label>
               <button 
-                @click="toggleOption('exterior', key)"
+                @click="toggleOption('exterior', key as keyof VehicleOptions['exterior'])"
                 class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200"
                 :class="value ? 'bg-primary-600' : 'bg-gray-200 dark:bg-gray-700'"
               >
@@ -219,7 +219,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 
 interface VehicleOptions {
   exterior: {
@@ -325,10 +325,12 @@ const toggleSection = (section: keyof OpenSections) => {
   openSections.value[section] = !openSections.value[section]
 }
 
-const toggleOption = (category: keyof VehicleOptions, option: string) => {
-  options.value[category][option as keyof VehicleOptions[keyof VehicleOptions]] = 
-    !options.value[category][option as keyof VehicleOptions[keyof VehicleOptions]]
-}
+const toggleOption = <T extends keyof VehicleOptions>(
+  category: T,
+  option: keyof VehicleOptions[T]
+) => {
+  options.value[category][option] = !options.value[category][option];
+};
 
 const getOptionLabel = (category: keyof VehicleOptions, option: string): string => {
   return optionLabels[category][option] || option
@@ -345,15 +347,17 @@ const getTotalSelectedCount = (): number => {
 }
 
 const resetOptions = () => {
-  Object.keys(options.value).forEach(category => {
-    Object.keys(options.value[category as keyof VehicleOptions]).forEach(option => {
-      options.value[category as keyof VehicleOptions][option as keyof VehicleOptions[keyof VehicleOptions]] = false
-    })
-  })
-}
-
+  Object.keys(options.value).forEach((category) => {
+    const categoryKey = category as keyof VehicleOptions;
+    Object.keys(options.value[categoryKey]).forEach((option) => {
+      const optionKey = option as keyof VehicleOptions[typeof categoryKey];
+      options.value[categoryKey][optionKey] = false;
+    });
+  });
+};
 const saveOptions = () => {
   console.log('Selected options:', options.value)
   // 여기에 저장 로직 추가
 }
-</script> 
+</script>
+

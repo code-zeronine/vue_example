@@ -66,11 +66,6 @@
 import { ref } from 'vue'
 import { useCounterStore } from '../stores/counter'
 
-interface ActionChange {
-  action: string;
-  count: number;
-}
-
 const store = useCounterStore()
 const amountToAdd = ref<number>(1)
 
