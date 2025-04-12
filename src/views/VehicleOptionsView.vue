@@ -329,7 +329,7 @@ const toggleOption = <T extends keyof VehicleOptions>(
   category: T,
   option: keyof VehicleOptions[T]
 ) => {
-  options.value[category][option] = !options.value[category][option];
+  options.value[category][option as keyof VehicleOptions[T]] = !(options.value[category][option as keyof VehicleOptions[T]] as boolean) as VehicleOptions[T][keyof VehicleOptions[T]];
 };
 
 const getOptionLabel = (category: keyof VehicleOptions, option: string): string => {
@@ -351,7 +351,7 @@ const resetOptions = () => {
     const categoryKey = category as keyof VehicleOptions;
     Object.keys(options.value[categoryKey]).forEach((option) => {
       const optionKey = option as keyof VehicleOptions[typeof categoryKey];
-      options.value[categoryKey][optionKey] = false;
+      options.value[categoryKey][optionKey as keyof VehicleOptions[typeof categoryKey]] = false as VehicleOptions[typeof categoryKey][keyof VehicleOptions[typeof categoryKey]];
     });
   });
 };
