@@ -11,6 +11,7 @@ import ApexChartsJs from '../views/ApexChartsJs.vue'
 import HighchartsJs from '../views/HighchartsJs.vue'
 import SoftwareArchitectureView from '../views/SoftwareArchitectureView.vue'
 import MobileWebArchitectureView from '../views/MobileWebArchitectureView.vue'
+import ChartJsView from '../views/ChartJsView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -67,6 +68,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/highcharts-js',
     name: 'highcharts-js',
     component: HighchartsJs
+  },
+  {
+    path: '/chartjs',
+    name: 'chartjs',
+    component: ChartJsView
   }
 ]
 

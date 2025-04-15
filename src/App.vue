@@ -49,9 +49,10 @@ const navLinks = ref<NavLink[]>([
   { to: '/d3-js', text: 'D3Js' },
   { to: '/apex-charts-js', text: 'ApexCharts' },
   { to: '/highcharts-js', text: 'Highcharts' },
-  { to: '/about', text: 'About' },
+  { to: '/chartjs', text: 'Chart.js' },
   { to: '/architecture', text: '소프트웨어 구성도' },
-  { to: '/mobile-web-architecture', text: '모바일 웹 구성도' }
+  { to: '/mobile-web-architecture', text: '모바일 웹 구성도' },
+  { to: '/about', text: 'About' }
 ])
 
 onMounted(() => {

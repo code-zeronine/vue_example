@@ -1,14 +1,28 @@
 <template>
-  <div class="chart-container">
-    <Bar 
-      :data="chartData"
-      :options="chartOptions"
-    />
+  <div class="charts-grid">
+    <div class="chart-container">
+      <Bar 
+        :data="barChartData"
+        :options="barChartOptions"
+      />
+    </div>
+    <div class="chart-container">
+      <Line
+        :data="lineChartData"
+        :options="lineChartOptions"
+      />
+    </div>
+    <div class="chart-container">
+      <Pie
+        :data="pieChartData"
+        :options="pieChartOptions"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Bar } from 'vue-chartjs'
+import { Bar, Line, Pie } from 'vue-chartjs'
 import {
   Chart as ChartJS,
   Title,
@@ -16,7 +30,10 @@ import {
   Legend,
   BarElement,
   CategoryScale,
-  LinearScale
+  LinearScale,
+  LineElement,
+  PointElement,
+  ArcElement
 } from 'chart.js'
 import { ref } from 'vue'
 
@@ -24,12 +41,16 @@ ChartJS.register(
   CategoryScale,
   LinearScale,
   BarElement,
+  LineElement,
+  PointElement,
+  ArcElement,
   Title,
   Tooltip,
   Legend
 )
 
-const chartData = ref({
+// 바 차트 데이터
+const barChartData = ref({
   labels: ['1월', '2월', '3월', '4월', '5월', '6월'],
   datasets: [
     {
@@ -42,7 +63,34 @@ const chartData = ref({
   ]
 })
 
-const chartOptions = ref({
+// 라인 차트 데이터
+const lineChartData = ref({
+  labels: ['1월', '2월', '3월', '4월', '5월', '6월'],
+  datasets: [
+    {
+      label: '월별 수익',
+      borderColor: '#10B981',
+      backgroundColor: 'rgba(16, 185, 129, 0.1)',
+      data: [150, 200, 180, 250, 220, 300],
+      tension: 0.4,
+      fill: true
+    }
+  ]
+})
+
+// 파이 차트 데이터
+const pieChartData = ref({
+  labels: ['현대', '기아', 'BMW', '벤츠', '아우디'],
+  datasets: [
+    {
+      backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'],
+      data: [30, 25, 15, 20, 10]
+    }
+  ]
+})
+
+// 공통 차트 옵션
+const commonOptions = {
   responsive: true,
   maintainAspectRatio: false,
   plugins: {
@@ -56,18 +104,6 @@ const chartOptions = ref({
         padding: 20,
         usePointStyle: true,
         pointStyle: 'circle'
-      }
-    },
-    title: {
-      display: true,
-      text: '월별 판매 현황',
-      font: {
-        family: "'Inter', sans-serif",
-        size: 16,
-        weight: 'bold' as const
-      },
-      padding: {
-        bottom: 30
       }
     },
     tooltip: {
@@ -85,6 +121,26 @@ const chartOptions = ref({
       borderColor: '#E5E7EB',
       borderWidth: 1,
       displayColors: false
+    }
+  }
+}
+
+// 바 차트 옵션
+const barChartOptions = ref({
+  ...commonOptions,
+  plugins: {
+    ...commonOptions.plugins,
+    title: {
+      display: true,
+      text: '월별 판매 현황',
+      font: {
+        family: "'Inter', sans-serif",
+        size: 16,
+        weight: 'bold' as const
+      },
+      padding: {
+        bottom: 30
+      }
     }
   },
   scales: {
@@ -116,9 +172,82 @@ const chartOptions = ref({
     }
   }
 })
+
+// 라인 차트 옵션
+const lineChartOptions = ref({
+  ...commonOptions,
+  plugins: {
+    ...commonOptions.plugins,
+    title: {
+      display: true,
+      text: '월별 수익 추이',
+      font: {
+        family: "'Inter', sans-serif",
+        size: 16,
+        weight: 'bold' as const
+      },
+      padding: {
+        bottom: 30
+      }
+    }
+  },
+  scales: {
+    y: {
+      beginAtZero: true,
+      grid: {
+        drawBorder: false,
+        color: '#E5E7EB'
+      },
+      ticks: {
+        font: {
+          family: "'Inter', sans-serif",
+          size: 12
+        },
+        padding: 10,
+        callback: (value: number) => `${value}만원`
+      }
+    },
+    x: {
+      grid: {
+        display: false
+      },
+      ticks: {
+        font: {
+          family: "'Inter', sans-serif",
+          size: 12
+        },
+        padding: 10
+      }
+    }
+  }
+})
+
+// 파이 차트 옵션
+const pieChartOptions = ref({
+  ...commonOptions,
+  plugins: {
+    ...commonOptions.plugins,
+    title: {
+      display: true,
+      text: '제조사별 판매 비율',
+      font: {
+        family: "'Inter', sans-serif",
+        size: 16,
+        weight: 'bold' as const
+      },
+      padding: {
+        bottom: 30
+      }
+    }
+  }
+})
 </script>
 
 <style scoped>
+.charts-grid {
+  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4;
+}
+
 .chart-container {
   @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 sm:p-6;
   height: 400px;
@@ -137,6 +266,17 @@ const chartOptions = ref({
   .chartjs-tooltip-header,
   .chartjs-tooltip-body {
     @apply text-white;
+  }
+}
+
+/* 모바일 최적화 */
+@media (max-width: 640px) {
+  .charts-grid {
+    @apply gap-4;
+  }
+  
+  .chart-container {
+    height: 300px;
   }
 }
 </style>

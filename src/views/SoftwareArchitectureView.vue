@@ -5,105 +5,114 @@
     
     <!-- SVG 다이어그램 -->
     <div class="svg-container bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg overflow-auto">
-      <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 800 600" class="architecture-svg">
         <!-- 배경 -->
-        <rect width="800" height="600" fill="#f8f9fa" />
+        <rect width="800" height="600" class="diagram-background" />
         
         <!-- 모바일 디바이스 프레임 -->
-        <rect x="50" y="50" width="300" height="500" rx="20" fill="#ffffff" stroke="#333333" stroke-width="3" />
-        <rect x="70" y="100" width="260" height="390" rx="5" fill="#f0f5ff" stroke="#dddddd" stroke-width="1" />
-        <circle cx="200" cy="520" r="20" fill="#eeeeee" stroke="#dddddd" stroke-width="1" />
+        <rect x="50" y="50" width="300" height="500" rx="20" class="device-frame" />
+        <rect x="70" y="100" width="260" height="390" rx="5" class="device-screen" />
+        <circle cx="200" cy="520" r="20" class="device-button" />
         
         <!-- 백엔드 서버 및 클라우드 서비스 -->
-        <rect x="450" y="50" width="300" height="500" rx="10" fill="#ffffff" stroke="#333333" stroke-width="2" />
+        <rect x="450" y="50" width="300" height="500" rx="10" class="server-frame" />
         
-        <!-- 앱 구성 요소 (모바일 내부) -->
-        <rect x="90" y="130" width="220" height="60" rx="5" fill="#4285f4" stroke="#2a75f3" stroke-width="1" />
-        <text x="200" y="165" font-family="Arial" font-size="16" text-anchor="middle" fill="white">Flutter 앱 (네이티브 컨테이너)</text>
-        
-        <rect x="90" y="220" width="220" height="170" rx="5" fill="#ffffff" stroke="#dddddd" stroke-width="1" />
-        <text x="200" y="245" font-family="Arial" font-size="16" text-anchor="middle" fill="#333333">WebView</text>
-        <rect x="110" y="260" width="180" height="110" rx="3" fill="#e8f0fe" stroke="#bbcef9" stroke-width="1" />
-        <text x="200" y="300" font-family="Arial" font-size="14" text-anchor="middle" fill="#666666">웹 컨텐츠</text>
-        <text x="200" y="320" font-family="Arial" font-size="12" text-anchor="middle" fill="#666666">(대부분의 UI 구현)</text>
-        
-        <rect x="90" y="420" width="105" height="50" rx="5" fill="#fbbc05" stroke="#e8a800" stroke-width="1" />
-        <text x="142" y="450" font-family="Arial" font-size="12" text-anchor="middle" fill="white">FIDO 2차 인증</text>
-        
-        <rect x="205" y="420" width="105" height="50" rx="5" fill="#34a853" stroke="#2d8746" stroke-width="1" />
-        <text x="257" y="450" font-family="Arial" font-size="12" text-anchor="middle" fill="white">Push 알림</text>
+        <!-- 앱 구성 요소 -->
+        <g class="app-components">
+          <rect x="90" y="130" width="220" height="60" rx="5" class="primary-component" />
+          <text x="200" y="165" class="component-title">프론트엔드</text>
+          
+          <rect x="90" y="220" width="220" height="170" rx="5" class="secondary-component" />
+          <text x="200" y="245" class="component-title">UI 컴포넌트</text>
+          <rect x="110" y="260" width="180" height="110" rx="3" class="webview-content" />
+          <text x="200" y="290" class="component-text">Vue.js + TypeScript</text>
+          <text x="200" y="320" class="component-text">TailwindCSS + Chart.js</text>
+          
+          <rect x="90" y="420" width="105" height="50" rx="5" class="feature-component state" />
+          <text x="142" y="450" class="feature-text">상태 관리</text>
+          
+          <rect x="205" y="420" width="105" height="50" rx="5" class="feature-component router" />
+          <text x="257" y="450" class="feature-text">라우팅</text>
+        </g>
         
         <!-- 백엔드 구성 요소 -->
-        <rect x="470" y="80" width="260" height="60" rx="5" fill="#4285f4" stroke="#2a75f3" stroke-width="1" />
-        <text x="600" y="115" font-family="Arial" font-size="16" text-anchor="middle" fill="white">백엔드 서버</text>
-        
-        <rect x="470" y="160" width="260" height="50" rx="5" fill="#ffffff" stroke="#dddddd" stroke-width="1" />
-        <text x="600" y="190" font-family="Arial" font-size="14" text-anchor="middle" fill="#333333">API 서비스</text>
-        
-        <rect x="470" y="230" width="260" height="50" rx="5" fill="#ffffff" stroke="#dddddd" stroke-width="1" />
-        <text x="600" y="260" font-family="Arial" font-size="14" text-anchor="middle" fill="#333333">웹 서비스 (WebView 컨텐츠)</text>
-        
-        <rect x="470" y="300" width="260" height="50" rx="5" fill="#ffffff" stroke="#dddddd" stroke-width="1" />
-        <text x="600" y="330" font-family="Arial" font-size="14" text-anchor="middle" fill="#333333">인증 서비스 (FIDO)</text>
-        
-        <rect x="470" y="370" width="260" height="50" rx="5" fill="#ffffff" stroke="#dddddd" stroke-width="1" />
-        <text x="600" y="400" font-family="Arial" font-size="14" text-anchor="middle" fill="#333333">푸시 알림 서비스</text>
-        
-        <rect x="470" y="440" width="260" height="50" rx="5" fill="#ea4335" stroke="#d33426" stroke-width="1" />
-        <text x="600" y="470" font-family="Arial" font-size="14" text-anchor="middle" fill="white">Google Analytics</text>
+        <g class="backend-components">
+          <rect x="470" y="80" width="260" height="60" rx="5" class="primary-component" />
+          <text x="600" y="115" class="component-title">백엔드</text>
+          
+          <rect x="470" y="160" width="260" height="50" rx="5" class="secondary-component" />
+          <text x="600" y="190" class="component-text">API 서비스</text>
+          
+          <rect x="470" y="230" width="260" height="50" rx="5" class="secondary-component" />
+          <text x="600" y="260" class="component-text">데이터베이스</text>
+          
+          <rect x="470" y="300" width="260" height="50" rx="5" class="secondary-component" />
+          <text x="600" y="330" class="component-text">인증 서비스</text>
+          
+          <rect x="470" y="370" width="260" height="50" rx="5" class="secondary-component" />
+          <text x="600" y="400" class="component-text">캐싱 서비스</text>
+          
+          <rect x="470" y="440" width="260" height="50" rx="5" class="analytics-component" />
+          <text x="600" y="470" class="feature-text">모니터링</text>
+        </g>
         
         <!-- 연결선 -->
-        <!-- Flutter와 백엔드 연결 -->
-        <line x1="310" y1="160" x2="470" y2="160" stroke="#333333" stroke-width="2" stroke-dasharray="5,5" />
-        <polygon points="460,155 470,160 460,165" fill="#333333" />
-        
-        <!-- WebView와 웹 서비스 연결 -->
-        <line x1="310" y1="255" x2="470" y2="255" stroke="#333333" stroke-width="2" stroke-dasharray="5,5" />
-        <polygon points="460,250 470,255 460,260" fill="#333333" />
-        
-        <!-- FIDO와 인증 서비스 연결 -->
-        <line x1="195" y1="445" x2="470" y2="325" stroke="#333333" stroke-width="2" stroke-dasharray="5,5" />
-        <polygon points="462,327 470,325 464,333" fill="#333333" />
-        
-        <!-- Push 알림과 푸시 서비스 연결 -->
-        <line x1="310" y1="445" x2="470" y2="395" stroke="#333333" stroke-width="2" stroke-dasharray="5,5" />
-        <polygon points="462,392 470,395 462,398" fill="#333333" />
-        
-        <!-- Analytics 연결 -->
-        <line x1="200" y1="390" x2="470" y2="465" stroke="#333333" stroke-width="2" stroke-dasharray="5,5" />
-        <polygon points="462,461 470,465 462,469" fill="#333333" />
+        <g class="connections">
+          <line x1="310" y1="160" x2="470" y2="160" class="connection-line" />
+          <polygon points="460,155 470,160 460,165" class="connection-arrow" />
+          
+          <line x1="310" y1="255" x2="470" y2="255" class="connection-line" />
+          <polygon points="460,250 470,255 460,260" class="connection-arrow" />
+          
+          <line x1="310" y1="445" x2="470" y2="395" class="connection-line" />
+          <polygon points="462,392 470,395 462,398" class="connection-arrow" />
+        </g>
         
         <!-- 범례 -->
-        <rect x="50" y="560" width="15" height="15" fill="#4285f4" />
-        <text x="75" y="573" font-family="Arial" font-size="12" fill="#333333">Flutter 네이티브</text>
-        
-        <rect x="200" y="560" width="15" height="15" fill="#e8f0fe" />
-        <text x="225" y="573" font-family="Arial" font-size="12" fill="#333333">WebView 컨텐츠</text>
-        
-        <rect x="350" y="560" width="15" height="15" fill="#fbbc05" />
-        <text x="375" y="573" font-family="Arial" font-size="12" fill="#333333">FIDO 인증</text>
-        
-        <rect x="475" y="560" width="15" height="15" fill="#34a853" />
-        <text x="500" y="573" font-family="Arial" font-size="12" fill="#333333">푸시 알림</text>
-        
-        <rect x="600" y="560" width="15" height="15" fill="#ea4335" />
-        <text x="625" y="573" font-family="Arial" font-size="12" fill="#333333">Google Analytics</text>
+        <g class="legend" transform="translate(50, 560)">
+          <g class="legend-item">
+            <rect width="15" height="15" class="primary-component" />
+            <text x="25" y="13" class="legend-text">주요 컴포넌트</text>
+          </g>
+          
+          <g class="legend-item" transform="translate(150, 0)">
+            <rect width="15" height="15" class="secondary-component" />
+            <text x="25" y="13" class="legend-text">서브 컴포넌트</text>
+          </g>
+          
+          <g class="legend-item" transform="translate(300, 0)">
+            <rect width="15" height="15" class="feature-component state" />
+            <text x="25" y="13" class="legend-text">상태 관리</text>
+          </g>
+          
+          <g class="legend-item" transform="translate(425, 0)">
+            <rect width="15" height="15" class="feature-component router" />
+            <text x="25" y="13" class="legend-text">라우팅</text>
+          </g>
+          
+          <g class="legend-item" transform="translate(550, 0)">
+            <rect width="15" height="15" class="analytics-component" />
+            <text x="25" y="13" class="legend-text">모니터링</text>
+          </g>
+        </g>
       </svg>
     </div>
 
-    <!-- 모바일 최적화를 위한 줌 컨트롤 -->
-    <div class="zoom-controls fixed bottom-4 right-4 flex gap-2">
+    <!-- 줌 컨트롤 -->
+    <div class="zoom-controls">
       <button
-        class="p-2 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        class="zoom-button"
         @click="zoomIn"
+        aria-label="확대"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         </svg>
       </button>
       <button
-        class="p-2 bg-blue-500 text-white rounded-full shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        class="zoom-button"
         @click="zoomOut"
+        aria-label="축소"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
@@ -158,45 +167,107 @@ const updateSvgScale = () => {
   transform-origin: center center;
 }
 
-.layer {
-  @apply fill-gray-100 dark:fill-gray-700 stroke-gray-300 dark:stroke-gray-600;
+.diagram-background {
+  @apply fill-gray-50 dark:fill-gray-900;
+}
+
+.device-frame {
+  @apply fill-white dark:fill-gray-800 stroke-gray-400 dark:stroke-gray-500;
+  stroke-width: 3;
+}
+
+.device-screen {
+  @apply fill-blue-50 dark:fill-blue-900/30 stroke-gray-300 dark:stroke-gray-600;
+}
+
+.device-button {
+  @apply fill-gray-200 dark:fill-gray-700 stroke-gray-300 dark:stroke-gray-600;
+}
+
+.server-frame {
+  @apply fill-white dark:fill-gray-800 stroke-gray-400 dark:stroke-gray-500;
   stroke-width: 2;
 }
 
-.frontend-layer {
-  @apply fill-blue-50 dark:fill-blue-900/30;
+.primary-component {
+  @apply fill-blue-500 dark:fill-blue-600 stroke-blue-600 dark:stroke-blue-500;
+  stroke-width: 1;
 }
 
-.backend-layer {
-  @apply fill-green-50 dark:fill-green-900/30;
+.secondary-component {
+  @apply fill-white dark:fill-gray-800 stroke-gray-300 dark:stroke-gray-600;
+  stroke-width: 1;
 }
 
-.database-layer {
-  @apply fill-purple-50 dark:fill-purple-900/30;
+.webview-content {
+  @apply fill-blue-50 dark:fill-blue-900/20 stroke-blue-200 dark:stroke-blue-800;
+  stroke-width: 1;
 }
 
-.component {
-  @apply fill-white dark:fill-gray-800 stroke-gray-400 dark:stroke-gray-500;
-  stroke-width: 1.5;
+.feature-component {
+  stroke-width: 1;
 }
 
-.layer-title {
-  @apply fill-gray-700 dark:fill-gray-300 text-lg font-semibold;
+.feature-component.state {
+  @apply fill-purple-500 dark:fill-purple-600 stroke-purple-600 dark:stroke-purple-500;
+}
+
+.feature-component.router {
+  @apply fill-green-500 dark:fill-green-600 stroke-green-600 dark:stroke-green-500;
+}
+
+.analytics-component {
+  @apply fill-red-500 dark:fill-red-600 stroke-red-600 dark:stroke-red-500;
+  stroke-width: 1;
+}
+
+.component-title {
+  @apply fill-white dark:fill-white;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
   text-anchor: middle;
-  dominant-baseline: middle;
 }
 
 .component-text {
-  @apply fill-gray-600 dark:fill-gray-400 text-sm;
+  @apply fill-gray-700 dark:fill-gray-300;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
   text-anchor: middle;
-  dominant-baseline: middle;
+}
+
+.feature-text {
+  @apply fill-white dark:fill-white;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  text-anchor: middle;
 }
 
 .connection-line {
   @apply stroke-gray-400 dark:stroke-gray-500;
   stroke-width: 2;
-  fill: none;
-  marker-end: url(#arrowhead);
+  stroke-dasharray: 5,5;
+}
+
+.connection-arrow {
+  @apply fill-gray-400 dark:fill-gray-500;
+}
+
+.legend-text {
+  @apply fill-gray-700 dark:fill-gray-300;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+}
+
+.zoom-controls {
+  @apply fixed bottom-4 right-4 flex gap-2;
+}
+
+.zoom-button {
+  @apply p-2 bg-blue-500 dark:bg-blue-600 text-white rounded-full shadow-lg 
+         hover:bg-blue-600 dark:hover:bg-blue-700 
+         focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 
+         focus:ring-opacity-50 transition-colors duration-200;
 }
 
 /* 모바일 최적화 */
@@ -209,12 +280,30 @@ const updateSvgScale = () => {
     @apply h-[calc(100vh-8rem)];
   }
 
-  .layer-title {
-    @apply text-base;
+  .component-title {
+    font-size: 14px;
   }
 
   .component-text {
-    @apply text-xs;
+    font-size: 12px;
+  }
+
+  .feature-text {
+    font-size: 10px;
+  }
+
+  .legend-text {
+    font-size: 10px;
+  }
+}
+
+/* 다크모드에서의 호버 효과 */
+@media (hover: hover) {
+  .primary-component:hover,
+  .secondary-component:hover,
+  .feature-component:hover {
+    @apply opacity-90 cursor-pointer;
+    transition: opacity 0.2s ease-in-out;
   }
 }
 </style> 
