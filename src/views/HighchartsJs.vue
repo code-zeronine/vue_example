@@ -1,13 +1,22 @@
 <template>
   <div class="charts-grid">
     <div class="chart-container">
-      <div ref="barChartRef"></div>
+      <h3 class="chart-title">월별 판매 현황</h3>
+      <div class="chart-wrapper">
+        <div ref="barChartRef"></div>
+      </div>
     </div>
     <div class="chart-container">
-      <div ref="lineChartRef"></div>
+      <h3 class="chart-title">월별 수익 추이</h3>
+      <div class="chart-wrapper">
+        <div ref="lineChartRef"></div>
+      </div>
     </div>
     <div class="chart-container">
-      <div ref="pieChartRef"></div>
+      <h3 class="chart-title">제조사별 판매 비율</h3>
+      <div class="chart-wrapper">
+        <div ref="pieChartRef"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -23,15 +32,24 @@ let barChart: Highcharts.Chart | null = null
 let lineChart: Highcharts.Chart | null = null
 let pieChart: Highcharts.Chart | null = null
 
-const barOptions: Highcharts.Options = {
+const commonChartOptions = {
   chart: {
-    type: 'column',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
+    style: {
+      fontFamily: "'Inter', sans-serif"
+    }
   },
   title: {
-    text: '월별 판매 현황',
-    align: 'left',
-    style: { fontSize: '16px', fontWeight: 'bold' }
+    text: undefined // 타이틀을 HTML로 이동
+  },
+  credits: { enabled: false }
+}
+
+const barOptions: Highcharts.Options = {
+  ...commonChartOptions,
+  chart: {
+    ...commonChartOptions.chart,
+    type: 'column'
   },
   xAxis: {
     categories: ['1월', '2월', '3월', '4월', '5월', '6월']
@@ -46,20 +64,19 @@ const barOptions: Highcharts.Options = {
     color: '#3B82F6'
   }],
   plotOptions: {
-    column: { borderRadius: 4 }
-  },
-  credits: { enabled: false }
+    column: { 
+      borderRadius: 4,
+      pointPadding: 0.1,
+      groupPadding: 0.1
+    }
+  }
 }
 
 const lineOptions: Highcharts.Options = {
+  ...commonChartOptions,
   chart: {
-    type: 'line',
-    backgroundColor: 'transparent'
-  },
-  title: {
-    text: '월별 수익 추이',
-    align: 'left',
-    style: { fontSize: '16px', fontWeight: 'bold' }
+    ...commonChartOptions.chart,
+    type: 'line'
   },
   xAxis: {
     categories: ['1월', '2월', '3월', '4월', '5월', '6월']
@@ -79,20 +96,20 @@ const lineOptions: Highcharts.Options = {
     color: '#10B981'
   }],
   plotOptions: {
-    line: { lineWidth: 3 }
-  },
-  credits: { enabled: false }
+    line: { 
+      lineWidth: 3,
+      marker: {
+        radius: 4
+      }
+    }
+  }
 }
 
 const pieOptions: Highcharts.Options = {
+  ...commonChartOptions,
   chart: {
-    type: 'pie',
-    backgroundColor: 'transparent'
-  },
-  title: {
-    text: '제조사별 판매 비율',
-    align: 'left',
-    style: { fontSize: '16px', fontWeight: 'bold' }
+    ...commonChartOptions.chart,
+    type: 'pie'
   },
   series: [{
     type: 'pie',
@@ -118,16 +135,40 @@ const pieOptions: Highcharts.Options = {
           textOutline: 'none'
         }
       },
-      showInLegend: true
+      showInLegend: true,
+      size: '85%'
     }
-  },
-  credits: { enabled: false }
+  }
 }
 
 onMounted(() => {
-  if (barChartRef.value) barChart = Highcharts.chart(barChartRef.value, barOptions)
-  if (lineChartRef.value) lineChart = Highcharts.chart(lineChartRef.value, lineOptions)
-  if (pieChartRef.value) pieChart = Highcharts.chart(pieChartRef.value, pieOptions)
+  if (barChartRef.value) {
+    barChart = Highcharts.chart(barChartRef.value, {
+      ...barOptions,
+      chart: {
+        ...barOptions.chart,
+        height: '100%'
+      }
+    })
+  }
+  if (lineChartRef.value) {
+    lineChart = Highcharts.chart(lineChartRef.value, {
+      ...lineOptions,
+      chart: {
+        ...lineOptions.chart,
+        height: '100%'
+      }
+    })
+  }
+  if (pieChartRef.value) {
+    pieChart = Highcharts.chart(pieChartRef.value, {
+      ...pieOptions,
+      chart: {
+        ...pieOptions.chart,
+        height: '100%'
+      }
+    })
+  }
 })
 
 onUnmounted(() => {
@@ -143,8 +184,25 @@ onUnmounted(() => {
 }
 
 .chart-container {
-  @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 sm:p-6;
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700;
   height: 400px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-title {
+  @apply text-lg font-semibold text-gray-900 dark:text-white;
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
+.chart-wrapper {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  height: calc(100% - 2.5rem); /* 제목 높이와 마진을 제외한 높이 */
 }
 
 :deep(.highcharts-background) {
@@ -167,6 +225,16 @@ onUnmounted(() => {
 @media (max-width: 640px) {
   .chart-container {
     height: 300px;
+    padding: 0.75rem;
+  }
+
+  .chart-title {
+    @apply text-base;
+    margin-bottom: 0.5rem;
+  }
+
+  .chart-wrapper {
+    height: calc(100% - 2rem); /* 모바일에서 제목 높이와 마진 조정 */
   }
 }
 </style>

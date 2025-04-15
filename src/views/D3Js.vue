@@ -3,19 +3,25 @@
     <!-- 바 차트 -->
     <div class="chart-container">
       <h3 class="chart-title">월별 판매 현황</h3>
-      <svg ref="barChartRef" class="d3-chart"></svg>
+      <div class="chart-wrapper">
+        <svg ref="barChartRef" class="d3-chart"></svg>
+      </div>
     </div>
     
     <!-- 라인 차트 -->
     <div class="chart-container">
       <h3 class="chart-title">월별 수익 추이</h3>
-      <svg ref="lineChartRef" class="d3-chart"></svg>
+      <div class="chart-wrapper">
+        <svg ref="lineChartRef" class="d3-chart"></svg>
+      </div>
     </div>
     
     <!-- 파이 차트 -->
     <div class="chart-container">
       <h3 class="chart-title">제조사별 판매 비율</h3>
-      <svg ref="pieChartRef" class="d3-chart"></svg>
+      <div class="chart-wrapper">
+        <svg ref="pieChartRef" class="d3-chart"></svg>
+      </div>
     </div>
   </div>
 </template>
@@ -71,14 +77,14 @@ const renderBarChart = () => {
   d3.selectAll('.chart-tooltip').remove()
 
   // 컨테이너 크기 가져오기
-  const container = d3.select(barChartRef.value.parentElement as HTMLElement)
-  const containerWidth = parseInt(container.style('width'), 10) || 300
-  const containerHeight = parseInt(container.style('height'), 10) || 400
+  const wrapper = d3.select(barChartRef.value.parentElement as HTMLElement)
+  const containerWidth = wrapper.node()?.getBoundingClientRect().width || 300
+  const containerHeight = wrapper.node()?.getBoundingClientRect().height || 400
 
   // SVG 크기 설정
   const margin = { top: 20, right: 20, bottom: 30, left: 40 }
   const width = containerWidth - margin.left - margin.right
-  const height = containerHeight - margin.top - margin.bottom - 40 // 제목 공간 확보
+  const height = containerHeight - margin.top - margin.bottom - 30 // 범례를 위한 공간 확보
 
   // 기존 차트 제거
   d3.select(barChartRef.value).selectAll('*').remove()
@@ -171,6 +177,25 @@ const renderBarChart = () => {
         .duration(500)
         .style('opacity', 0)
     })
+
+  // 범례 추가
+  const legend = svg.append('g')
+    .attr('class', 'legend')
+    .attr('transform', `translate(${margin.left},${height + margin.top + 25})`)
+
+  legend.append('rect')
+    .attr('x', 0)
+    .attr('width', 12)
+    .attr('height', 12)
+    .attr('fill', '#3B82F6')
+
+  legend.append('text')
+    .attr('x', 20)
+    .attr('y', 9)
+    .text('판매량')
+    .style('font-size', '12px')
+    .style('font-family', "'Inter', sans-serif")
+    .attr('alignment-baseline', 'middle')
 }
 
 const renderLineChart = () => {
@@ -180,14 +205,14 @@ const renderLineChart = () => {
   d3.selectAll('.chart-tooltip').remove()
 
   // 컨테이너 크기 가져오기
-  const container = d3.select(lineChartRef.value.parentElement as HTMLElement)
-  const containerWidth = parseInt(container.style('width'), 10) || 300
-  const containerHeight = parseInt(container.style('height'), 10) || 400
+  const wrapper = d3.select(lineChartRef.value.parentElement as HTMLElement)
+  const containerWidth = wrapper.node()?.getBoundingClientRect().width || 300
+  const containerHeight = wrapper.node()?.getBoundingClientRect().height || 400
 
   // SVG 크기 설정
   const margin = { top: 20, right: 20, bottom: 30, left: 60 }
   const width = containerWidth - margin.left - margin.right
-  const height = containerHeight - margin.top - margin.bottom - 40
+  const height = containerHeight - margin.top - margin.bottom - 30 // 범례를 위한 공간 확보
 
   // 기존 차트 제거
   d3.select(lineChartRef.value).selectAll('*').remove()
@@ -293,6 +318,33 @@ const renderLineChart = () => {
         .duration(500)
         .style('opacity', 0)
     })
+
+  // 범례 추가
+  const legend = svg.append('g')
+    .attr('class', 'legend')
+    .attr('transform', `translate(${margin.left},${height + margin.top + 25})`)
+
+  legend.append('line')
+    .attr('x1', 0)
+    .attr('y1', 6)
+    .attr('x2', 15)
+    .attr('y2', 6)
+    .attr('stroke', '#10B981')
+    .attr('stroke-width', 2)
+
+  legend.append('circle')
+    .attr('cx', 7.5)
+    .attr('cy', 6)
+    .attr('r', 3)
+    .attr('fill', '#10B981')
+
+  legend.append('text')
+    .attr('x', 25)
+    .attr('y', 9)
+    .text('수익')
+    .style('font-size', '12px')
+    .style('font-family', "'Inter', sans-serif")
+    .attr('alignment-baseline', 'middle')
 }
 
 const renderPieChart = () => {
@@ -302,16 +354,15 @@ const renderPieChart = () => {
   d3.selectAll('.chart-tooltip').remove()
 
   // 컨테이너 크기 가져오기
-  const container = d3.select(pieChartRef.value.parentElement as HTMLElement)
-  const containerWidth = parseInt(container.style('width'), 10) || 300
-  const containerHeight = parseInt(container.style('height'), 10) || 400
+  const wrapper = d3.select(pieChartRef.value.parentElement as HTMLElement)
+  const containerWidth = wrapper.node()?.getBoundingClientRect().width || 300
+  const containerHeight = wrapper.node()?.getBoundingClientRect().height || 400
 
   // SVG 크기 설정
-  const margin = { top: 40, right: 40, bottom: 40, left: 40 }
+  const margin = { top: 20, right: 120, bottom: 20, left: 20 } // 오른쪽 여백 증가
   const width = containerWidth - margin.left - margin.right
-  const height = containerHeight - margin.top - margin.bottom - 40
-  // 파이 차트 크기를 전체의 80%로 조정
-  const radius = Math.min(width, height) * 0.4
+  const height = containerHeight - margin.top - margin.bottom
+  const radius = Math.min(width, height) * 0.45
 
   // 기존 차트 제거
   d3.select(pieChartRef.value).selectAll('*').remove()
@@ -394,6 +445,31 @@ const renderPieChart = () => {
     .style('font-size', '12px')
     .style('font-family', "'Inter', sans-serif")
     .text(d => `${Math.round(d.data.value / d3.sum(pieData.value, d => d.value) * 100)}%`)
+
+  // 범례 추가
+  const legend = svg.append('g')
+    .attr('class', 'legend')
+    .attr('transform', `translate(${radius + 40},-${height/2 - 20})`)
+
+  const legendItems = legend.selectAll('.legend-item')
+    .data(pieData.value)
+    .enter()
+    .append('g')
+    .attr('class', 'legend-item')
+    .attr('transform', (d, i) => `translate(0,${i * 25})`)
+
+  legendItems.append('rect')
+    .attr('width', 12)
+    .attr('height', 12)
+    .attr('fill', d => color(d.label))
+
+  legendItems.append('text')
+    .attr('x', 20)
+    .attr('y', 9)
+    .text(d => `${d.label} (${Math.round(d.value / d3.sum(pieData.value, d => d.value) * 100)}%)`)
+    .style('font-size', '12px')
+    .style('font-family', "'Inter', sans-serif")
+    .attr('alignment-baseline', 'middle')
 }
 
 // 리사이즈 핸들러
@@ -445,16 +521,30 @@ watch([barData, lineData, pieData], () => {
 }
 
 .chart-container {
-  @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 sm:p-6;
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700;
   height: 400px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .chart-title {
-  @apply text-lg font-semibold text-gray-900 dark:text-white mb-4;
+  @apply text-lg font-semibold text-gray-900 dark:text-white;
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
+.chart-wrapper {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  height: calc(100% - 2.5rem); /* 제목 높이와 마진을 제외한 높이 */
 }
 
 .d3-chart {
-  @apply w-full h-full;
+  width: 100%;
+  height: 100%;
 }
 
 /* D3 차트 요소 스타일링 */
@@ -517,21 +607,38 @@ watch([barData, lineData, pieData], () => {
 
 /* 모바일 최적화 */
 @media (max-width: 640px) {
-  .charts-grid {
-    gap: 1rem;
-  }
-  
   .chart-container {
     height: 300px;
+    padding: 0.75rem;
   }
 
   .chart-title {
     @apply text-base;
+    margin-bottom: 0.5rem;
+  }
+
+  .chart-wrapper {
+    height: calc(100% - 2rem); /* 모바일에서 제목 높이와 마진 조정 */
   }
 
   :deep(.x-axis text),
   :deep(.y-axis text) {
     font-size: 10px;
+  }
+
+  :deep(.legend text) {
+    font-size: 10px;
+  }
+}
+
+/* 범례 스타일링 */
+:deep(.legend text) {
+  @apply fill-gray-600 dark:fill-gray-400;
+}
+
+:deep(.dark) {
+  .legend text {
+    @apply fill-gray-400;
   }
 }
 </style>

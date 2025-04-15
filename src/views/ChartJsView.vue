@@ -3,19 +3,25 @@
     <!-- 바 차트 -->
     <div class="chart-container">
       <h3 class="chart-title">월별 판매 현황</h3>
-      <Bar :data="barChartData" :options="barChartOptions" />
+      <div class="chart-wrapper">
+        <Bar :data="barChartData" :options="barChartOptions" />
+      </div>
     </div>
     
     <!-- 라인 차트 -->
     <div class="chart-container">
       <h3 class="chart-title">월별 수익 추이</h3>
-      <Line :data="lineChartData" :options="lineChartOptions" />
+      <div class="chart-wrapper">
+        <Line :data="lineChartData" :options="lineChartOptions" />
+      </div>
     </div>
     
     <!-- 파이 차트 -->
     <div class="chart-container">
       <h3 class="chart-title">제조사별 판매 비율</h3>
-      <Pie :data="pieChartData" :options="pieChartOptions" />
+      <div class="chart-wrapper">
+        <Pie :data="pieChartData" :options="pieChartOptions" />
+      </div>
     </div>
   </div>
 </template>
@@ -34,6 +40,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js'
+import ChartDataLabels from 'chartjs-plugin-datalabels'
 import type { Scale, CoreScaleOptions } from 'chart.js'
 import { Bar, Line, Pie } from 'vue-chartjs'
 
@@ -47,7 +54,8 @@ ChartJS.register(
   ArcElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels
 )
 
 // 공통 차트 옵션
@@ -62,8 +70,10 @@ const commonOptions = {
           family: "'Inter', sans-serif",
           size: 12
         },
-        usePointStyle: true
-      }
+        usePointStyle: true,
+        padding: 15
+      },
+      maxHeight: 40
     },
     tooltip: {
       backgroundColor: 'white',
@@ -81,6 +91,18 @@ const commonOptions = {
       padding: 12,
       borderColor: '#E5E7EB',
       borderWidth: 1
+    },
+    // 파이 차트를 제외한 차트에서는 datalabels 비활성화
+    datalabels: {
+      display: false
+    }
+  },
+  layout: {
+    padding: {
+      top: 10,
+      right: 15,
+      bottom: 10,
+      left: 15
     }
   }
 }
@@ -185,6 +207,22 @@ const pieChartOptions = ref({
   ...commonOptions,
   plugins: {
     ...commonOptions.plugins,
+    // 파이 차트에서만 datalabels 활성화
+    datalabels: {
+      color: '#FFFFFF',
+      font: {
+        weight: 'bold' as const,
+        size: 14,
+        family: "'Inter', sans-serif"
+      },
+      display: true,
+      formatter: (value: number, context: any) => {
+        const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0)
+        const percentage = Math.round((value / total) * 100)
+        return `${percentage}%`
+      },
+      textAlign: 'center' as const
+    },
     tooltip: {
       ...commonOptions.plugins.tooltip,
       callbacks: {
@@ -222,12 +260,31 @@ const pieChartOptions = ref({
 }
 
 .chart-container {
-  @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 sm:p-6;
+  @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700;
   height: 400px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .chart-title {
-  @apply text-lg font-semibold text-gray-900 dark:text-white mb-4;
+  @apply text-lg font-semibold text-gray-900 dark:text-white;
+  margin-bottom: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* Chart wrapper to control dimensions */
+.chart-wrapper {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  height: calc(100% - 2.5rem); /* 제목 높이와 마진을 제외한 높이 */
+}
+
+:deep(.chart-wrapper canvas) {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 /* 다크모드 지원 */
@@ -246,10 +303,16 @@ const pieChartOptions = ref({
 @media (max-width: 640px) {
   .chart-container {
     height: 300px;
+    padding: 0.75rem;
   }
 
   .chart-title {
     @apply text-base;
+    margin-bottom: 0.5rem;
+  }
+
+  .chart-wrapper {
+    height: calc(100% - 2rem); /* 모바일에서 제목 높이와 마진 조정 */
   }
 }
 </style> 
