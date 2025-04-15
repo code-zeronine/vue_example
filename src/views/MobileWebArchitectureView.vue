@@ -4,7 +4,7 @@
     <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">모바일 웹 아키텍처</h2>
     
     <!-- SVG 다이어그램 -->
-    <div class="svg-container bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg overflow-auto">
+    <div class="svg-container bg-white dark:bg-gray-900 p-4 rounded-lg shadow-lg overflow-auto">
       <svg viewBox="0 0 800 600" class="architecture-svg">
         <!-- 배경 -->
         <rect width="800" height="600" class="diagram-background" />
@@ -164,7 +164,7 @@ const updateSvgScale = () => {
 }
 
 .svg-container {
-  @apply w-full h-[calc(100vh-12rem)] relative;
+  @apply w-full h-[calc(100vh-12rem)] relative bg-white dark:bg-gray-900 rounded-lg shadow-lg;
   touch-action: manipulation;
 }
 
@@ -174,16 +174,16 @@ const updateSvgScale = () => {
 }
 
 .diagram-background {
-  @apply fill-gray-50 dark:fill-gray-900;
+  @apply fill-gray-50 dark:fill-gray-900/95;
 }
 
 .device-frame {
-  @apply fill-white dark:fill-gray-800 stroke-gray-400 dark:stroke-gray-500;
+  @apply fill-white dark:fill-gray-800 stroke-gray-400 dark:stroke-gray-600;
   stroke-width: 3;
 }
 
 .device-screen {
-  @apply fill-blue-50 dark:fill-blue-900/30 stroke-gray-300 dark:stroke-gray-600;
+  @apply fill-blue-50 dark:fill-blue-900/40 stroke-gray-300 dark:stroke-gray-700;
 }
 
 .device-button {
@@ -191,12 +191,12 @@ const updateSvgScale = () => {
 }
 
 .server-frame {
-  @apply fill-white dark:fill-gray-800 stroke-gray-400 dark:stroke-gray-500;
+  @apply fill-white dark:fill-gray-800 stroke-gray-400 dark:stroke-gray-600;
   stroke-width: 2;
 }
 
 .primary-component {
-  @apply fill-blue-500 dark:fill-blue-600 stroke-blue-600 dark:stroke-blue-500;
+  @apply fill-blue-500 dark:fill-blue-600 stroke-blue-600 dark:stroke-blue-400;
   stroke-width: 1;
 }
 
@@ -206,7 +206,7 @@ const updateSvgScale = () => {
 }
 
 .webview-content {
-  @apply fill-blue-50 dark:fill-blue-900/20 stroke-blue-200 dark:stroke-blue-800;
+  @apply fill-blue-50 dark:fill-blue-900/30 stroke-blue-200 dark:stroke-blue-700;
   stroke-width: 1;
 }
 
@@ -215,20 +215,20 @@ const updateSvgScale = () => {
 }
 
 .feature-component.fido {
-  @apply fill-yellow-500 dark:fill-yellow-600 stroke-yellow-600 dark:stroke-yellow-500;
+  @apply fill-yellow-500 dark:fill-yellow-600/90 stroke-yellow-600 dark:stroke-yellow-400;
 }
 
 .feature-component.push {
-  @apply fill-green-500 dark:fill-green-600 stroke-green-600 dark:stroke-green-500;
+  @apply fill-green-500 dark:fill-green-600/90 stroke-green-600 dark:stroke-green-400;
 }
 
 .analytics-component {
-  @apply fill-red-500 dark:fill-red-600 stroke-red-600 dark:stroke-red-500;
+  @apply fill-red-500 dark:fill-red-600/90 stroke-red-600 dark:stroke-red-400;
   stroke-width: 1;
 }
 
 .component-title {
-  @apply fill-white dark:fill-white;
+  @apply fill-white dark:fill-gray-100;
   font-family: 'Inter', sans-serif;
   font-size: 16px;
   font-weight: 600;
@@ -236,7 +236,7 @@ const updateSvgScale = () => {
 }
 
 .component-text {
-  @apply fill-gray-700 dark:fill-gray-300;
+  @apply fill-gray-700 dark:fill-gray-200;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   text-anchor: middle;
@@ -250,7 +250,7 @@ const updateSvgScale = () => {
 }
 
 .feature-text {
-  @apply fill-white dark:fill-white;
+  @apply fill-white dark:fill-gray-100;
   font-family: 'Inter', sans-serif;
   font-size: 12px;
   text-anchor: middle;
@@ -280,7 +280,8 @@ const updateSvgScale = () => {
   @apply p-2 bg-blue-500 dark:bg-blue-600 text-white rounded-full shadow-lg 
          hover:bg-blue-600 dark:hover:bg-blue-700 
          focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 
-         focus:ring-opacity-50 transition-colors duration-200;
+         focus:ring-opacity-50 transition-colors duration-200
+         dark:shadow-blue-900/20;
 }
 
 /* 모바일 최적화 */
@@ -319,8 +320,24 @@ const updateSvgScale = () => {
   .primary-component:hover,
   .secondary-component:hover,
   .feature-component:hover {
-    @apply opacity-90 cursor-pointer;
-    transition: opacity 0.2s ease-in-out;
+    @apply opacity-90 cursor-pointer filter brightness-110 dark:brightness-125;
+    transition: all 0.2s ease-in-out;
+  }
+}
+
+/* 다크모드에서의 추가 스타일 */
+:deep(.dark) {
+  .svg-container {
+    @apply shadow-xl shadow-gray-900/20;
+  }
+
+  .connection-line {
+    @apply opacity-60;
+  }
+
+  .device-frame,
+  .server-frame {
+    @apply shadow-lg shadow-gray-900/10;
   }
 }
 </style>

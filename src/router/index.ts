@@ -12,6 +12,7 @@ import HighchartsJs from '../views/HighchartsJs.vue'
 import SoftwareArchitectureView from '../views/SoftwareArchitectureView.vue'
 import MobileWebArchitectureView from '../views/MobileWebArchitectureView.vue'
 import ChartJsView from '../views/ChartJsView.vue'
+import MobileAppArchitectureView from '../views/MobileAppArchitectureView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -43,6 +44,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/architecture',
     name: 'architecture',
     component: SoftwareArchitectureView
+  },
+  {
+    path: '/mobile-app-architecture',
+    name: 'mobile-app-architecture',
+    component: MobileAppArchitectureView
   },
   {
     path: '/mobile-web-architecture',

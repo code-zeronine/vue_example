@@ -51,6 +51,7 @@ const navLinks = ref<NavLink[]>([
   { to: '/highcharts-js', text: 'Highcharts' },
   { to: '/chartjs', text: 'Chart.js' },
   { to: '/architecture', text: '소프트웨어 구성도' },
+  { to: '/mobile-app-architecture', text: '모바일 앱 구성도' },
   { to: '/mobile-web-architecture', text: '모바일 웹 구성도' },
   { to: '/about', text: 'About' }
 ])
