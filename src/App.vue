@@ -45,7 +45,13 @@ const navLinks = ref<NavLink[]>([
   { to: '/counter', text: 'Counter' },
   { to: '/vehicle-options', text: '차량 옵션' },
   { to: '/used-car-status', text: '중고차 현황' },
-  { to: '/about', text: 'About' }
+  { to: '/echart-js', text: 'EchartJs' },
+  { to: '/d3-js', text: 'D3Js' },
+  { to: '/apex-charts-js', text: 'ApexCharts' },
+  { to: '/highcharts-js', text: 'Highcharts' },
+  { to: '/about', text: 'About' },
+  { to: '/architecture', text: '소프트웨어 구성도' },
+  { to: '/mobile-web-architecture', text: '모바일 웹 구성도' }
 ])
 
 onMounted(() => {

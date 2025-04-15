@@ -5,6 +5,12 @@ import AboutView from '../views/AboutView.vue'
 import CounterView from '../views/CounterView.vue'
 import VehicleOptionsView from '../views/VehicleOptionsView.vue'
 import UsedCarStatusView from '../views/UsedCarStatusView.vue'
+import EchartJs from '../views/EchartJs.vue'
+import D3Js from '../views/D3Js.vue'
+import ApexChartsJs from '../views/ApexChartsJs.vue'
+import HighchartsJs from '../views/HighchartsJs.vue'
+import SoftwareArchitectureView from '../views/SoftwareArchitectureView.vue'
+import MobileWebArchitectureView from '../views/MobileWebArchitectureView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -31,6 +37,36 @@ const routes: Array<RouteRecordRaw> = [
     path: '/used-car-status',
     name: 'used-car-status',
     component: UsedCarStatusView
+  },
+  {
+    path: '/architecture',
+    name: 'architecture',
+    component: SoftwareArchitectureView
+  },
+  {
+    path: '/mobile-web-architecture',
+    name: 'mobile-web-architecture',
+    component: MobileWebArchitectureView
+  },
+  {
+    path: '/echart-js',
+    name: 'echart-js',
+    component: EchartJs
+  },
+  {
+    path: '/d3-js',
+    name: 'd3-js',
+    component: D3Js
+  },
+  {
+    path: '/apex-charts-js',
+    name: 'apex-charts-js',
+    component: ApexChartsJs
+  },
+  {
+    path: '/highcharts-js',
+    name: 'highcharts-js',
+    component: HighchartsJs
   }
 ]
 
