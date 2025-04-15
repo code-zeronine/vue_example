@@ -13,6 +13,7 @@ import SoftwareArchitectureView from '../views/SoftwareArchitectureView.vue'
 import MobileWebArchitectureView from '../views/MobileWebArchitectureView.vue'
 import ChartJsView from '../views/ChartJsView.vue'
 import MobileAppArchitectureView from '../views/MobileAppArchitectureView.vue'
+import PCWebArchitectureView from '../views/PCWebArchitectureView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -54,6 +55,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/mobile-web-architecture',
     name: 'mobile-web-architecture',
     component: MobileWebArchitectureView
+  },
+  {
+    path: '/pc-web-architecture',
+    name: 'pc-web-architecture',
+    component: PCWebArchitectureView
   },
   {
     path: '/echart-js',
