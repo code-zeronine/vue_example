@@ -33,8 +33,10 @@ import {
   LinearScale,
   LineElement,
   PointElement,
-  ArcElement
+  ArcElement,
+  Filler
 } from 'chart.js'
+import type { Scale, CoreScaleOptions } from 'chart.js'
 import { ref } from 'vue'
 
 ChartJS.register(
@@ -46,7 +48,8 @@ ChartJS.register(
   ArcElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 )
 
 // 바 차트 데이터
@@ -204,7 +207,9 @@ const lineChartOptions = ref({
           size: 12
         },
         padding: 10,
-        callback: (value: number) => `${value}만원`
+        callback: function(this: Scale<CoreScaleOptions>, tickValue: string | number) {
+          return `${tickValue}만원`
+        }
       }
     },
     x: {
