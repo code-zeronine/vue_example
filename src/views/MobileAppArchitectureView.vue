@@ -1,10 +1,10 @@
 <!-- 소프트웨어 구성도 뷰 -->
 <template>
-  <div class="architecture-container">
+  <div class="p-4 w-full h-full overflow-hidden">
     <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">모바일 앱 구성도</h2>
     
     <!-- SVG 다이어그램 -->
-    <div class="svg-container bg-white dark:bg-gray-900 p-4 rounded-lg shadow-lg overflow-auto">
+    <div class="w-full h-[calc(100vh-12rem)] relative bg-white dark:bg-gray-900 rounded-lg shadow-lg overflow-auto touch-[manipulation]">
       <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
         <!-- 배경 및 제목 -->
         <rect width="800" height="600" class="diagram-background" />
@@ -96,9 +96,9 @@
     </div>
 
     <!-- 줌 컨트롤 -->
-    <div class="zoom-controls">
+    <div class="fixed bottom-4 right-4 flex gap-2">
       <button
-        class="zoom-button"
+        class="p-2 bg-blue-500 dark:bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-opacity-50 transition-colors duration-200 dark:shadow-blue-900/20"
         @click="zoomIn"
         aria-label="확대"
       >
@@ -107,7 +107,7 @@
         </svg>
       </button>
       <button
-        class="zoom-button"
+        class="p-2 bg-blue-500 dark:bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-opacity-50 transition-colors duration-200 dark:shadow-blue-900/20"
         @click="zoomOut"
         aria-label="축소"
       >
@@ -149,121 +149,159 @@ const updateSvgScale = () => {
 }
 </script>
 
-<style scoped>
-.architecture-container {
-  @apply p-4 w-full h-full overflow-hidden;
-}
-
-.svg-container {
-  @apply w-full h-[calc(100vh-12rem)] relative bg-white dark:bg-gray-900 rounded-lg shadow-lg;
-  touch-action: manipulation;
-}
-
+<style>
 .diagram-background {
-  @apply fill-gray-50 dark:fill-gray-900/95;
+  fill: #f8fafc;
+}
+
+.dark .diagram-background {
+  fill: rgba(17, 24, 39, 0.95);
 }
 
 .main-title {
-  @apply fill-gray-900 dark:fill-gray-100;
+  fill: #111827;
   font-family: 'Inter', sans-serif;
   font-size: 24px;
   font-weight: bold;
   text-anchor: middle;
 }
 
+.dark .main-title {
+  fill: #f3f4f6;
+}
+
 .outer-frame {
-  @apply fill-gray-100 dark:fill-gray-800 stroke-gray-300 dark:stroke-gray-600;
+  fill: #f3f4f6;
+  stroke: #e5e7eb;
   stroke-width: 2;
+}
+
+.dark .outer-frame {
+  fill: #1f2937;
+  stroke: #374151;
 }
 
 .flutter-layer {
-  @apply fill-blue-100/50 dark:fill-blue-900/20 stroke-blue-400 dark:stroke-blue-500;
+  fill: #e5e7eb;
+  stroke: #e5e7eb;
   stroke-width: 2;
+}
+
+.dark .flutter-layer {
+  fill: #1f2937;
+  stroke: #374151;
 }
 
 .webview-layer {
-  @apply fill-green-100/50 dark:fill-green-900/20 stroke-green-400 dark:stroke-green-500;
+  fill: #f3f4f6;
+  stroke: #e5e7eb;
   stroke-width: 2;
+}
+
+.dark .webview-layer {
+  fill: #1f2937;
+  stroke: #374151;
 }
 
 .service-layer {
-  @apply fill-orange-100/50 dark:fill-orange-900/20 stroke-orange-400 dark:stroke-orange-500;
+  fill: #f3f4f6;
+  stroke: #e5e7eb;
   stroke-width: 2;
 }
 
+.dark .service-layer {
+  fill: #1f2937;
+  stroke: #374151;
+}
+
 .component-box {
-  @apply fill-white dark:fill-gray-800 stroke-gray-300 dark:stroke-gray-600;
+  fill: #f3f4f6;
+  stroke: #e5e7eb;
   stroke-width: 1.5;
 }
 
+.dark .component-box {
+  fill: #1f2937;
+  stroke: #374151;
+}
+
 .layer-title {
-  @apply fill-gray-900 dark:fill-gray-100;
+  fill: #111827;
   font-family: 'Inter', sans-serif;
   font-size: 16px;
   font-weight: bold;
   text-anchor: middle;
 }
 
+.dark .layer-title {
+  fill: #f3f4f6;
+}
+
 .component-title {
-  @apply fill-gray-800 dark:fill-gray-200;
+  fill: #111827;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: bold;
   text-anchor: middle;
 }
 
+.dark .component-title {
+  fill: #f3f4f6;
+}
+
 .component-text {
-  @apply fill-gray-600 dark:fill-gray-300;
+  fill: #6b7280;
   font-family: 'Inter', sans-serif;
   font-size: 12px;
   text-anchor: middle;
 }
 
+.dark .component-text {
+  fill: #d1d5db;
+}
+
 .service-text {
-  @apply fill-gray-700 dark:fill-gray-300;
+  fill: #111827;
   font-family: 'Inter', sans-serif;
   font-size: 12px;
   font-weight: bold;
   text-anchor: middle;
 }
 
+.dark .service-text {
+  fill: #f3f4f6;
+}
+
 .external-service {
-  @apply fill-gray-200/50 dark:fill-gray-700/50 stroke-gray-400 dark:stroke-gray-500;
+  fill: #f3f4f6;
+  stroke: #e5e7eb;
   stroke-width: 1.5;
 }
 
+.dark .external-service {
+  fill: #1f2937;
+  stroke: #374151;
+}
+
 .connection-line {
-  @apply stroke-gray-400 dark:stroke-gray-500;
+  stroke: #e5e7eb;
   stroke-width: 2;
   stroke-dasharray: 5,5;
 }
 
+.dark .connection-line {
+  stroke: #374151;
+}
+
 .connection-arrow {
-  @apply fill-gray-400 dark:fill-gray-500;
+  fill: #e5e7eb;
 }
 
-.zoom-controls {
-  @apply fixed bottom-4 right-4 flex gap-2;
+.dark .connection-arrow {
+  fill: #374151;
 }
 
-.zoom-button {
-  @apply p-2 bg-blue-500 dark:bg-blue-600 text-white rounded-full shadow-lg 
-         hover:bg-blue-600 dark:hover:bg-blue-700 
-         focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 
-         focus:ring-opacity-50 transition-colors duration-200
-         dark:shadow-blue-900/20;
-}
-
-/* 모바일 최적화 */
 @media (max-width: 640px) {
-  .architecture-container {
-    @apply p-2;
-  }
-
-  .svg-container {
-    @apply h-[calc(100vh-8rem)];
-  }
-
   .main-title {
     font-size: 18px;
   }
@@ -276,41 +314,21 @@ const updateSvgScale = () => {
     font-size: 12px;
   }
 
-  .component-text {
-    font-size: 10px;
-  }
-
+  .component-text,
   .service-text {
     font-size: 10px;
   }
 }
 
-/* 다크모드에서의 호버 효과 */
 @media (hover: hover) {
   .component-box:hover {
-    @apply opacity-90 cursor-pointer filter brightness-110 dark:brightness-125;
-    transition: all 0.2s ease-in-out;
-  }
-}
-
-/* 다크모드에서의 추가 스타일 */
-:deep(.dark) {
-  .svg-container {
-    @apply shadow-xl shadow-gray-900/20;
+    opacity: 0.9;
+    cursor: pointer;
+    filter: brightness(110%);
   }
 
-  .connection-line {
-    @apply opacity-60;
-  }
-
-  .flutter-layer,
-  .webview-layer,
-  .service-layer {
-    @apply shadow-lg shadow-gray-900/10;
-  }
-
-  .component-box {
-    @apply shadow-md shadow-gray-900/10;
+  .dark .component-box:hover {
+    filter: brightness(125%);
   }
 }
 </style> 
