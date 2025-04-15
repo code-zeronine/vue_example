@@ -45,6 +45,9 @@
                 <router-link to="/used-car-status" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600">
                   중고차 현황
                 </router-link>
+                <router-link to="/vehicle-list" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600">
+                  차량 목록
+                </router-link>
               </div>
             </div>
 
@@ -171,6 +174,9 @@ const currentRoute = computed(() => {
     meta.parent = 'Mobile List Example'
   } else if (path === '/used-car-status') {
     meta.breadcrumb = '중고차 현황'
+    meta.parent = 'Mobile List Example'
+  } else if (path === '/vehicle-list') {
+    meta.breadcrumb = '차량 목록'
     meta.parent = 'Mobile List Example'
   } else if (path === '/echart-js') {
     meta.breadcrumb = 'EchartJS'

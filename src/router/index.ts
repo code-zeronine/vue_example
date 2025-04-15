@@ -14,6 +14,7 @@ import MobileWebArchitectureView from '../views/MobileWebArchitectureView.vue'
 import ChartJsView from '../views/ChartJsView.vue'
 import MobileAppArchitectureView from '../views/MobileAppArchitectureView.vue'
 import PCWebArchitectureView from '../views/PCWebArchitectureView.vue'
+import VehicleListView from '../views/VehicleListView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -40,6 +41,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/used-car-status',
     name: 'used-car-status',
     component: UsedCarStatusView
+  },
+  {
+    path: '/vehicle-list',
+    name: 'vehicle-list',
+    component: VehicleListView
   },
   {
     path: '/architecture',

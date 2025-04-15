@@ -20,6 +20,7 @@
     "chartjs-plugin-datalabels": "^2.2.0",
     "d3": "^7.9.0",
     "glob": "^11.0.1",
+    "gridjs": "^6.2.0",
     "gridjs-vue": "^5.0.4",
     "highcharts": "^12.2.0",
     "pinia": "^2.1.7",
