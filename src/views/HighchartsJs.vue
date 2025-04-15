@@ -42,7 +42,19 @@ const commonChartOptions = {
   title: {
     text: undefined // 타이틀을 HTML로 이동
   },
-  credits: { enabled: false }
+  credits: { enabled: false },
+  accessibility: {
+    enabled: true,
+    description: '차트는 월별 판매 현황, 수익 추이, 제조사별 판매 비율을 보여줍니다.',
+    announceNewData: {
+      announcementFormatter: function (allSeries: Highcharts.Series[], newSeries: Highcharts.Series | undefined, newPoint: Highcharts.Point | undefined) {
+        if (newPoint) {
+          return '새로운 데이터 포인트가 추가되었습니다.';
+        }
+        return false;
+      }
+    }
+  }
 }
 
 const barOptions: Highcharts.Options = {
